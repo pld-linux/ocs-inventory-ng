@@ -1,17 +1,36 @@
-Summary:	OCS-ng Inventory - keeping track of the configuration and installed software
-Summary(pl):	OCS-ng Inventory - ¶ledzenie konfiguracji i zainstalowanego oprogramowania
-Name:		ocs-ng-inventory
+# TODO  - spec name to ocs-inventory-ng.spec
+# - patch for PLD
+# - webapps
+# - agents
+
+Summary:	OCS-Inventory NG - keeping track of the configuration and installed software
+Summary(pl):	OCS-Inventory NG - ¶ledzenie konfiguracji i zainstalowanego oprogramowania
+Name:		ocs-inventory-ng
 Version:	1.0
 Release:	0.1
 License:	GPL
 Group:		Applications
-Source0:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_SERVER_%{version}-RC1.tar.gz
-# Source0-md5:	3fbc457d43f0ba7a3848d7cf7aa8bc09
-Source1:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_AGENT_%{version}-RC1.tar.gz
-# Source1-md5:	2381218545de4e546e992b0d2076bebf
-Source2:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_SERVER_PATCH_%{version}-RC1-1.tar.gz
-# Source2-md5:	513831077e60b7b38da5382c953ec55c
+Source0:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_SERVER_%{version}RC3-1.tar.gz
+# Source0-md5:	014b06827371e47b3509965656ca18d3
+Source1:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_AGENT_%{version}RC3.tar.gz
+# Source1-md5:	34edd057f1937245d06c3515c0ff50ad
+Source2:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.7_EN.odt
+# Source2-md5:	da52c1e4201dcbf249b2a71db9de6b5f
+Source3:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.7_EN.pdf
+# Source3-md5:	bd9a9792bab51f6aae5109a1c39b0a48
 URL:		http://ocsinventory.sourceforge.net/
+Requires:	perl >= 5.6
+Requires:	apache >= 1.3.33
+Requires:	apache-mod_perl >= 1.29
+Requires:	php-common >= 4.3.2
+Requires:	php-pecl-zip
+Requires:	apache-mod_php >= 4.3.2
+Requires:	perl-XML-Simple >= 2.12
+Requires:	perl-Compress-Zlib >= 1.33
+Requires:	perl-DBI >= 1.40
+Requires:	perl-DBD-Mysql >= 2.9004
+Requires:	perl-Apache-DBI >= 0.93
+Requires:	perl-Net-IP >= 1.21
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -67,49 +86,33 @@ OCS-ng Inventory agent for PLD systems.
 Agent OCS-ng Inventory dla systemów PLD.
 
 %prep
-%setup -q -n OCSNG_LINUX_SERVER_1.0-RC1
-#%setup -q -n OCSNG_LINUX_AGENT_1.0-RC1
-#%setup -q -c -T
-#%setup -q -n %{name}
-#%%setup -q -n %{name}-%{version}.orig -a 1
+%setup -q -n OCSNG_LINUX_SERVER_%{version}RC3-1 -a 1 
 #%patch0 -p1
 
 # undos the source
-#find '(' -name '*.php' -o -name '*.inc' ')' -print0 | xargs -0 sed -i -e 's,\r$,,'
-
-# remove CVS control files
-#find -name CVS -print0 | xargs -0 rm -rf
+find '(' -name '*.php' -o -name '*.inc' ')' -print0 | xargs -0 sed -i -e 's,\r$,,'
 
 %build
-# if ac/am/* rebuilding is necessary, do it in this order and add
-# appropriate BuildRequires
-#%%{__intltoolize}
-#%%{__gettextize}
-#%%{__libtoolize}
-#%%{__aclocal}
-#%%{__autoconf}
-#%%{__autoheader}
-#%%{__automake}
-#cp -f /usr/share/automake/config.sub .
-%configure
-%{__make}
-
-#%{__make} \
-#	CFLAGS="%{rpmcflags}" \
-#	LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_sysconfdir}/logrotate.d}
+cp -Rf ocsreports/* $RPM_BUILD_ROOT%{_datadir}/%{name}
+
+# TODO patch this file for PLD
+install Apache/logrotate.ocsinventory-NG $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/ocs-inventory-ng
+#install ocsinventory.conf $APACHE_CONFIG_DIRECTORY/ocsinventory.conf
+install ipdiscover-util/ipdiscover-util.pl $RPM_BUILD_ROOT%{_datadir}/%{name}/ipdiscover-util.pl
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS CREDITS ChangeLog NEWS README THANKS TODO
+%doc README ocs-errors $SOURCE2 $SOURCE3
+%{_sysconfdir}/logrotate.d/ocs-inventory-ng
+%{_datadir}/%{name}/
 
 #%files agent
 #%defattr(644,root,root,755)
