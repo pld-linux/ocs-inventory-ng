@@ -28,7 +28,7 @@ Requires:	apache-mod_php >= 4.3.2
 Requires:	perl-XML-Simple >= 2.12
 Requires:	perl-Compress-Zlib >= 1.33
 Requires:	perl-DBI >= 1.40
-Requires:	perl-DBD-Mysql >= 2.9004
+Requires:	perl-DBD-mysql >= 2.9004
 Requires:	perl-Apache-DBI >= 0.93
 Requires:	perl-Net-IP >= 1.21
 BuildArch:	noarch
