@@ -1,8 +1,8 @@
-# TODO  - spec name to ocs-inventory-ng.spec
+# TODO
+# - spec name to ocs-inventory-ng.spec
 # - patch for PLD
 # - webapps
 # - agents
-
 Summary:	OCS-Inventory NG - keeping track of the configuration and installed software
 Summary(pl):	OCS-Inventory NG - ¶ledzenie konfiguracji i zainstalowanego oprogramowania
 Name:		ocs-inventory-ng
@@ -19,18 +19,18 @@ Source2:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_an
 Source3:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.7_EN.pdf
 # Source3-md5:	bd9a9792bab51f6aae5109a1c39b0a48
 URL:		http://ocsinventory.sourceforge.net/
-Requires:	perl >= 5.6
 Requires:	apache >= 1.3.33
 Requires:	apache-mod_perl >= 1.29
-Requires:	php-common >= 4.3.2
-Requires:	php-pecl-zip
 Requires:	apache-mod_php >= 4.3.2
-Requires:	perl-XML-Simple >= 2.12
-Requires:	perl-Compress-Zlib >= 1.33
-Requires:	perl-DBI >= 1.40
-Requires:	perl-DBD-mysql >= 2.9004
+Requires:	perl-base >= 1:5.6
 Requires:	perl-Apache-DBI >= 0.93
+Requires:	perl-Compress-Zlib >= 1.33
+Requires:	perl-DBD-mysql >= 2.9004
+Requires:	perl-DBI >= 1.40
 Requires:	perl-Net-IP >= 1.21
+Requires:	perl-XML-Simple >= 2.12
+Requires:	php-common >= 3:4.3.2
+Requires:	php-pecl-zip
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -49,9 +49,8 @@ Inventoried client computers can run Microsoft Windows
 95/98/Me/NT4/2000/XP/2003 or Linux operating systems.
 
 Used with a park management software such as GLPI, you will have a
-powerful inventory and park management software with automatic
-updates of computer configuration, license management, help desk and
-more.
+powerful inventory and park management software with automatic updates
+of computer configuration, license management, help desk and more.
 
 %description -l pl
 Open Computer and Software Inventory Next Generation to aplikacja
@@ -86,7 +85,7 @@ OCS-ng Inventory agent for PLD systems.
 Agent OCS-ng Inventory dla systemów PLD.
 
 %prep
-%setup -q -n OCSNG_LINUX_SERVER_%{version}RC3-1 -a 1 
+%setup -q -n OCSNG_LINUX_SERVER_%{version}RC3-1 -a 1
 #%patch0 -p1
 
 # undos the source
@@ -111,7 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README ocs-errors $SOURCE2 $SOURCE3
-%{_sysconfdir}/logrotate.d/ocs-inventory-ng
+/etc/logrotate.d/ocs-inventory-ng
 %{_datadir}/%{name}/
 
 #%files agent
