@@ -1,8 +1,7 @@
 # TODO
 # - spec name to ocs-inventory-ng.spec
-# - patch for PLD
 # - webapps
-# - agents
+# - agent
 Summary:	OCS-Inventory NG - keeping track of the configuration and installed software
 Summary(pl):	OCS-Inventory NG - ¶ledzenie konfiguracji i zainstalowanego oprogramowania
 Name:		ocs-inventory-ng
@@ -18,6 +17,7 @@ Source2:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_an
 # Source2-md5:	da52c1e4201dcbf249b2a71db9de6b5f
 Source3:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.7_EN.pdf
 # Source3-md5:	bd9a9792bab51f6aae5109a1c39b0a48
+Patch0:		%{name}-config.patch
 URL:		http://ocsinventory.sourceforge.net/
 Requires:	apache >= 1.3.33
 Requires:	apache-mod_perl >= 1.29
@@ -86,15 +86,24 @@ Agent OCS-ng Inventory dla systemów PLD.
 
 %prep
 %setup -q -n OCSNG_LINUX_SERVER_%{version}RC3-1 -a 1
-#%patch0 -p1
+%patch0 -p1
 
 # undos the source
 find '(' -name '*.php' -o -name '*.inc' ')' -print0 | xargs -0 sed -i -e 's,\r$,,'
 
 %build
+cd Apache
+%{__perl} Makefile.PL \
+        INSTALLDIRS=vendor
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
+cd Apache
+%{__make} install \
+        DESTDIR=$RPM_BUILD_ROOT
+cd ..
 
 install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_sysconfdir}/logrotate.d}
 cp -Rf ocsreports/* $RPM_BUILD_ROOT%{_datadir}/%{name}
@@ -111,7 +120,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README ocs-errors $SOURCE2 $SOURCE3
 /etc/logrotate.d/ocs-inventory-ng
+%attr(755,root,root) %{_bindir}/Ocsinventory_local.pl
 %{_datadir}/%{name}/
+%{perl_vendorlib}/
+
 
 #%files agent
 #%defattr(644,root,root,755)
