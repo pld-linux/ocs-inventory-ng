@@ -31,8 +31,14 @@ Requires:	perl-Net-IP >= 1.21
 Requires:	perl-XML-Simple >= 2.12
 Requires:	php-common >= 3:4.3.2
 Requires:	php-pecl-zip
+Requires:       webapps
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define         _webapps        /etc/webapps
+%define         _webapp         %{name}
+%define         _webappconfdir  %{_webapps}/%{_webapp}
+%define         _appdir         %{_datadir}/%{_webapp}
 
 %description
 Open Computer and Software Inventory Next Generation is an application
@@ -106,20 +112,36 @@ cd Apache
 cd ..
 
 install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_sysconfdir}/logrotate.d,%{_var}/log/%{name}}
+install -d $RPM_BUILD_ROOT{%{_appdir},%{_webappconfdir}}
 cp -Rf ocsreports/* $RPM_BUILD_ROOT%{_datadir}/%{name}
 
-# TODO patch this file for PLD
 install Apache/logrotate.ocsinventory-NG $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/ocs-inventory-ng
-#install ocsinventory.conf $APACHE_CONFIG_DIRECTORY/ocsinventory.conf
+install Apache/ocsinventory.conf $RPM_BUILD_ROOT%{_webappconfdir}/apache.conf
+install Apache/ocsinventory.conf $RPM_BUILD_ROOT%{_webappconfdir}/httpd.conf
 install ipdiscover-util/ipdiscover-util.pl $RPM_BUILD_ROOT%{_datadir}/%{name}/ipdiscover-util.pl
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%triggerin -- apache1 < 1.3.37-3, apache1-base
+%webapp_register apache %{_webapp}
+
+%triggerun -- apache1 < 1.3.37-3, apache1-base
+%webapp_unregister apache %{_webapp}
+
+%triggerin -- apache < 2.2.0, apache-base
+%webapp_register httpd %{_webapp}
+
+%triggerun -- apache < 2.2.0, apache-base
+%webapp_unregister httpd %{_webapp}
+
 %files
 %defattr(644,root,root,755)
 %doc README ocs-errors $SOURCE2 $SOURCE3
-/etc/logrotate.d/ocs-inventory-ng
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/ocs-inventory-ng
+%attr(750,root,http) %dir %{_webappconfdir}
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_webappconfdir}/apache.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_webappconfdir}/httpd.conf
 %attr(755,root,root) %{_bindir}/Ocsinventory_local.pl
 %{_datadir}/%{name}/
 %{perl_vendorlib}/
