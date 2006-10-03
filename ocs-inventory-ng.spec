@@ -105,7 +105,7 @@ cd Apache
         DESTDIR=$RPM_BUILD_ROOT
 cd ..
 
-install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_sysconfdir}/logrotate.d}
+install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_sysconfdir}/logrotate.d,%{_var}/log/%{name}}
 cp -Rf ocsreports/* $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 # TODO patch this file for PLD
@@ -123,7 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/Ocsinventory_local.pl
 %{_datadir}/%{name}/
 %{perl_vendorlib}/
-
+%attr(770,root,http) %dir %{_var}/log/%{name}
 
 #%files agent
 #%defattr(644,root,root,755)
