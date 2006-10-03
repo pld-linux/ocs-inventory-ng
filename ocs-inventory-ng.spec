@@ -31,14 +31,14 @@ Requires:	perl-Net-IP >= 1.21
 Requires:	perl-XML-Simple >= 2.12
 Requires:	php-common >= 3:4.3.2
 Requires:	php-pecl-zip
-Requires:       webapps
+Requires:	webapps
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define         _webapps        /etc/webapps
-%define         _webapp         %{name}
-%define         _webappconfdir  %{_webapps}/%{_webapp}
-%define         _appdir         %{_datadir}/%{_webapp}
+%define		_webapps	/etc/webapps
+%define		_webapp		%{name}
+%define		_webappconfdir	%{_webapps}/%{_webapp}
+%define		_appdir		%{_datadir}/%{_webapp}
 
 %description
 Open Computer and Software Inventory Next Generation is an application
@@ -100,7 +100,7 @@ find '(' -name '*.php' -o -name '*.inc' ')' -print0 | xargs -0 sed -i -e 's,\r$,
 %build
 cd Apache
 %{__perl} Makefile.PL \
-        INSTALLDIRS=vendor
+	INSTALLDIRS=vendor
 %{__make}
 
 %install
@@ -108,7 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 
 cd Apache
 %{__make} install \
-        DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT
 cd ..
 
 install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_sysconfdir}/logrotate.d,%{_var}/log/%{name}}
