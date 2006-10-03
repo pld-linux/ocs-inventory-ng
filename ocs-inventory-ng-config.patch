@@ -1,0 +1,36 @@
+diff -uNr OCSNG_LINUX_SERVER_1.0RC3-1.orig/Apache/logrotate.ocsinventory-NG OCSNG_LINUX_SERVER_1.0RC3-1/Apache/logrotate.ocsinventory-NG
+--- OCSNG_LINUX_SERVER_1.0RC3-1.orig/Apache/logrotate.ocsinventory-NG	2006-03-31 16:23:53.000000000 +0000
++++ OCSNG_LINUX_SERVER_1.0RC3-1/Apache/logrotate.ocsinventory-NG	2006-10-03 12:03:39.000000000 +0000
+@@ -15,7 +15,7 @@
+ #
+ # Rotate OCS Inventory NG Communication server logs weekly, only if not empty
+ # Save 7 days old logs under compressed mode
+-PATH_TO_LOG_DIRECTORY/*.log {
++/var/log/ocs-inventory/*.log {
+ 	daily
+ 	rotate 7
+ 	compress
+diff -uNr OCSNG_LINUX_SERVER_1.0RC3-1.orig/Apache/ocsinventory.conf OCSNG_LINUX_SERVER_1.0RC3-1/Apache/ocsinventory.conf
+--- OCSNG_LINUX_SERVER_1.0RC3-1.orig/Apache/ocsinventory.conf	2006-07-03 20:16:36.000000000 +0000
++++ OCSNG_LINUX_SERVER_1.0RC3-1/Apache/ocsinventory.conf	2006-10-03 12:03:27.000000000 +0000
+@@ -13,16 +13,16 @@
+ # Which version of mod_perl we are using
+ # For mod_perl <= 1.999_21, replace VERSION_MP by 1
+ # For mod_perl > 1.999_21, replace VERSION_MP by 2
+-PerlSetEnv OCS_MODPERL_VERSION VERSION_MP
++PerlSetEnv OCS_MODPERL_VERSION 2
+ 
+ # Where to write detailled logs
+-PerlSetEnv OCS_LOGPATH "PATH_TO_LOG_DIRECTORY"
++PerlSetEnv OCS_LOGPATH "/var/log/ocs-inventory"
+ 
+ # Database options
+ # Replace DATABASE_SERVER by hostname or ip of MySQL server, generally localhost
+-PerlSetEnv OCS_DB_HOST DATABASE_SERVER
++PerlSetEnv OCS_DB_HOST localhost
+ # Replace DATABASE_PORT by port where running MySQL server, generally 3306
+-PerlSetEnv OCS_DB_PORT DATABASE_PORT
++PerlSetEnv OCS_DB_PORT 3306
+ # Name of database
+ PerlSetEnv OCS_DB_NAME ocsweb
+ PerlSetEnv OCS_DB_LOCAL ocsweb
