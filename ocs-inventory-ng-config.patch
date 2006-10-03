@@ -6,7 +6,7 @@ diff -uNr OCSNG_LINUX_SERVER_1.0RC3-1.orig/Apache/logrotate.ocsinventory-NG OCSN
  # Rotate OCS Inventory NG Communication server logs weekly, only if not empty
  # Save 7 days old logs under compressed mode
 -PATH_TO_LOG_DIRECTORY/*.log {
-+/var/log/ocs-inventory/*.log {
++/var/log/ocs-inventory-ng/*.log {
  	daily
  	rotate 7
  	compress
@@ -22,7 +22,7 @@ diff -uNr OCSNG_LINUX_SERVER_1.0RC3-1.orig/Apache/ocsinventory.conf OCSNG_LINUX_
  
  # Where to write detailled logs
 -PerlSetEnv OCS_LOGPATH "PATH_TO_LOG_DIRECTORY"
-+PerlSetEnv OCS_LOGPATH "/var/log/ocs-inventory"
++PerlSetEnv OCS_LOGPATH "/var/log/ocs-inventory-ng"
  
  # Database options
  # Replace DATABASE_SERVER by hostname or ip of MySQL server, generally localhost
