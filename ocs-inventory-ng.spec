@@ -22,13 +22,13 @@ URL:		http://ocsinventory.sourceforge.net/
 Requires:	apache >= 1.3.33
 Requires:	apache-mod_perl >= 1.29
 Requires:	apache-mod_php >= 4.3.2
-Requires:	perl-base >= 1:5.6
 Requires:	perl-Apache-DBI >= 0.93
 Requires:	perl-Compress-Zlib >= 1.33
 Requires:	perl-DBD-mysql >= 2.9004
 Requires:	perl-DBI >= 1.40
 Requires:	perl-Net-IP >= 1.21
 Requires:	perl-XML-Simple >= 2.12
+Requires:	perl-base >= 1:5.6
 Requires:	php-common >= 3:4.3.2
 Requires:	php-pecl-zip
 Requires:	webapps
@@ -95,12 +95,12 @@ Agent OCS-ng Inventory dla systemów PLD.
 %patch0 -p1
 
 # undos the source
-find '(' -name '*.php' -o -name '*.inc' ')' -print0 | xargs -0 sed -i -e 's,\r$,,'
+find '(' -name '*.php' -o -name '*.inc' -o  -name '*.conf' -o  -name '*.htc' -o  -name '*.js' -o  -name '*.dtd' -o  -name '*.pm' -o  -name '*.css' ')' -print0 | xargs -0 sed -i -e 's,\r$,,'
 
 %build
 cd Apache
 %{__perl} Makefile.PL \
-	INSTALLDIRS=vendor
+		INSTALLDIRS=vendor
 %{__make}
 
 %install
