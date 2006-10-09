@@ -19,6 +19,8 @@ Source3:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_an
 # Source3-md5:	bd9a9792bab51f6aae5109a1c39b0a48
 Patch0:		%{name}-config.patch
 URL:		http://ocsinventory.sourceforge.net/
+BuildRequires:	perl-devel >= 1:5.6
+BuildRequires:	perl-ExtUtils-MakeMaker
 Requires:	apache >= 1.3.33
 Requires:	apache-mod_perl >= 1.29
 Requires:	apache-mod_php >= 4.3.2
