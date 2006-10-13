@@ -1,5 +1,4 @@
 # TODO
-# - spec name to ocs-inventory-ng.spec
 # - webapps
 # - agent
 Summary:	OCS-Inventory NG - keeping track of the configuration and installed software
