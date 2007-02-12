@@ -2,7 +2,7 @@
 # - webapps
 # - agent
 Summary:	OCS-Inventory NG - keeping track of the configuration and installed software
-Summary(pl):	OCS-Inventory NG - ¶ledzenie konfiguracji i zainstalowanego oprogramowania
+Summary(pl.UTF-8):   OCS-Inventory NG - Å›ledzenie konfiguracji i zainstalowanego oprogramowania
 Name:		ocs-inventory-ng
 Version:	1.0
 Release:	0.1
@@ -59,37 +59,37 @@ Used with a park management software such as GLPI, you will have a
 powerful inventory and park management software with automatic updates
 of computer configuration, license management, help desk and more.
 
-%description -l pl
+%description -l pl.UTF-8
 Open Computer and Software Inventory Next Generation to aplikacja
-zaprojektowana, aby pomóc administratorom sieci lub systemów w
-¶ledzeniu konfiguracji komputerów i oprogramowania zainstalowanego w
+zaprojektowana, aby pomÃ³c administratorom sieci lub systemÃ³w w
+Å›ledzeniu konfiguracji komputerÃ³w i oprogramowania zainstalowanego w
 sieci.
 
-Dialog miêdzy komputerami klienckimi a serwerem zarz±dzaj±cym jest
-oparty na w³a¶ciwych standardach, takich jak protokó³ HTTP i format
+Dialog miÄ™dzy komputerami klienckimi a serwerem zarzÄ…dzajÄ…cym jest
+oparty na wÅ‚aÅ›ciwych standardach, takich jak protokÃ³Å‚ HTTP i format
 danych XML.
 
-Serwer zarz±dzaj±cy dzia³a na serwerze Apache/MySQL/PHP/Perl pod
+Serwer zarzÄ…dzajÄ…cy dziaÅ‚a na serwerze Apache/MySQL/PHP/Perl pod
 Linuksem lub Windows NT.
 
-Inwentaryzowane komputery klienckie mog± dzia³aæ pod kontrol± systemu
+Inwentaryzowane komputery klienckie mogÄ… dziaÅ‚aÄ‡ pod kontrolÄ… systemu
 Microsoft Windows 95/98/Me/NT4/2000/XP/2003 lub Linux.
 
-Przy u¿yciu oprogramowania do zarz±dzania parkiem informatycznym,
-takiego jak GLPI, otrzymamy potê¿ne oprogramowanie do inwentaryzacji i
-zarz±dzania parkiem z automatycznym uaktualnianiem konfiguracji
-komputerów, zarz±dzaniem licencjami, help deskiem itd.
+Przy uÅ¼yciu oprogramowania do zarzÄ…dzania parkiem informatycznym,
+takiego jak GLPI, otrzymamy potÄ™Å¼ne oprogramowanie do inwentaryzacji i
+zarzÄ…dzania parkiem z automatycznym uaktualnianiem konfiguracji
+komputerÃ³w, zarzÄ…dzaniem licencjami, help deskiem itd.
 
 %package agent
 Summary:	OCS-ng Inventory agent for PLD systems
-Summary(pl):	Agent OCS-ng Inventory dla systemów PLD
+Summary(pl.UTF-8):   Agent OCS-ng Inventory dla systemÃ³w PLD
 Group:		Networking/Daemons
 
 %description agent
 OCS-ng Inventory agent for PLD systems.
 
-%description agent -l pl
-Agent OCS-ng Inventory dla systemów PLD.
+%description agent -l pl.UTF-8
+Agent OCS-ng Inventory dla systemÃ³w PLD.
 
 %prep
 %setup -q -n OCSNG_LINUX_SERVER_%{version}RC3-1 -a 1
