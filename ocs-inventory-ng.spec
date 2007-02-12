@@ -2,7 +2,7 @@
 # - webapps
 # - agent
 Summary:	OCS-Inventory NG - keeping track of the configuration and installed software
-Summary(pl.UTF-8):   OCS-Inventory NG - śledzenie konfiguracji i zainstalowanego oprogramowania
+Summary(pl.UTF-8):	OCS-Inventory NG - śledzenie konfiguracji i zainstalowanego oprogramowania
 Name:		ocs-inventory-ng
 Version:	1.0
 Release:	0.1
@@ -82,7 +82,7 @@ komputerów, zarządzaniem licencjami, help deskiem itd.
 
 %package agent
 Summary:	OCS-ng Inventory agent for PLD systems
-Summary(pl.UTF-8):   Agent OCS-ng Inventory dla systemów PLD
+Summary(pl.UTF-8):	Agent OCS-ng Inventory dla systemów PLD
 Group:		Networking/Daemons
 
 %description agent
