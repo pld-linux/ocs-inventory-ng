@@ -4,18 +4,18 @@
 Summary:	OCS-Inventory NG - keeping track of the configuration and installed software
 Summary(pl.UTF-8):	OCS-Inventory NG - śledzenie konfiguracji i zainstalowanego oprogramowania
 Name:		ocs-inventory-ng
-Version:	1.0
+Version:	1.01
 Release:	0.1
 License:	GPL
 Group:		Applications
-Source0:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_SERVER_%{version}RC3-1.tar.gz
-# Source0-md5:	014b06827371e47b3509965656ca18d3
-Source1:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_AGENT_%{version}RC3.tar.gz
-# Source1-md5:	34edd057f1937245d06c3515c0ff50ad
-Source2:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.7_EN.odt
-# Source2-md5:	da52c1e4201dcbf249b2a71db9de6b5f
-Source3:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.7_EN.pdf
-# Source3-md5:	bd9a9792bab51f6aae5109a1c39b0a48
+Source0:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_SERVER_%{version}.tar.gz
+# Source0-md5:	3a756080a409f7743937ffe1ab748a03
+Source1:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_AGENT_%{version}.tar.gz
+# Source1-md5:	9e5a5893cd83eb94637c34b60286dcb8
+Source2:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.9_EN.odt.zip
+# Source2-md5:	ff62f5e3769b4f5670407d0085d064e5
+Source3:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.9_EN.pdf.zip
+# Source3-md5:	cd1b2611f22f24223bb7c7b1fa095b12
 Patch0:		%{name}-config.patch
 URL:		http://ocsinventory.sourceforge.net/
 BuildRequires:	perl-devel >= 1:5.6
@@ -92,7 +92,7 @@ OCS-ng Inventory agent for PLD systems.
 Agent OCS-ng Inventory dla systemów PLD.
 
 %prep
-%setup -q -n OCSNG_LINUX_SERVER_%{version}RC3-1 -a 1
+%setup -q -n OCSNG_LINUX_SERVER_%{version} -a 1
 %patch0 -p1
 
 # undos the source
