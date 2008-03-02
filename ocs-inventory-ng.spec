@@ -134,5 +134,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_webappconfdir}/httpd.conf
 %attr(755,root,root) %{_bindir}/Ocsinventory_local.pl
 %{_datadir}/%{name}/
-%{perl_vendorlib}/
+%dir %{perl_vendorlib}/Apache/Ocsinventory
+%{perl_vendorlib}/Apache/Ocsinventory/*
+%{perl_vendorlib}/Apache/Ocsinventory.pm
 %attr(770,root,http) %dir %{_var}/log/%{name}
