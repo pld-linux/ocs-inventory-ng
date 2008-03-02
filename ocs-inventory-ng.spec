@@ -1,6 +1,4 @@
-# TODO
-# - webapps
-# - agent
+#
 Summary:	OCS-Inventory NG - keeping track of the configuration and installed software
 Summary(pl.UTF-8):	OCS-Inventory NG - śledzenie konfiguracji i zainstalowanego oprogramowania
 Name:		ocs-inventory-ng
@@ -10,14 +8,16 @@ License:	GPL
 Group:		Applications
 Source0:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_SERVER_%{version}.tar.gz
 # Source0-md5:	3a756080a409f7743937ffe1ab748a03
-Source1:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_AGENT_%{version}.tar.gz
-# Source1-md5:	9e5a5893cd83eb94637c34b60286dcb8
 Source2:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.9_EN.odt.zip
 # Source2-md5:	ff62f5e3769b4f5670407d0085d064e5
 Source3:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.9_EN.pdf.zip
 # Source3-md5:	cd1b2611f22f24223bb7c7b1fa095b12
+Source4:	%{name}-client.conf
+Source5:	%{name}-client.adm
+Source6:	%{name}-client.cron
+Source7:	%{name}-client.logrotate
 Patch0:		%{name}-config.patch
-URL:		http://ocsinventory.sourceforge.net/
+URL:		http://www.ocsinventory-ng.org/
 BuildRequires:	perl-devel >= 1:5.6
 BuildRequires:	perl-ExtUtils-MakeMaker
 Requires:	apache >= 1.3.33
@@ -80,19 +80,8 @@ takiego jak GLPI, otrzymamy potężne oprogramowanie do inwentaryzacji i
 zarządzania parkiem z automatycznym uaktualnianiem konfiguracji
 komputerów, zarządzaniem licencjami, help deskiem itd.
 
-%package agent
-Summary:	OCS-ng Inventory agent for PLD systems
-Summary(pl.UTF-8):	Agent OCS-ng Inventory dla systemów PLD
-Group:		Networking/Daemons
-
-%description agent
-OCS-ng Inventory agent for PLD systems.
-
-%description agent -l pl.UTF-8
-Agent OCS-ng Inventory dla systemów PLD.
-
 %prep
-%setup -q -n OCSNG_LINUX_SERVER_%{version} -a 1
+%setup -q -n OCSNG_LINUX_SERVER_%{version}
 %patch0 -p1
 
 # undos the source
@@ -147,6 +136,3 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 %{perl_vendorlib}/
 %attr(770,root,http) %dir %{_var}/log/%{name}
-
-#%files agent
-#%defattr(644,root,root,755)
