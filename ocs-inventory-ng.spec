@@ -2,24 +2,20 @@
 Summary:	OCS-Inventory NG - keeping track of the configuration and installed software
 Summary(pl.UTF-8):	OCS-Inventory NG - śledzenie konfiguracji i zainstalowanego oprogramowania
 Name:		ocs-inventory-ng
-Version:	1.01
-Release:	0.1
+Version:	2.0.5
+Release:	0.0.1
 License:	GPL
 Group:		Applications
-Source0:	http://dl.sourceforge.net/ocsinventory/OCSNG_LINUX_SERVER_%{version}.tar.gz
-# Source0-md5:	3a756080a409f7743937ffe1ab748a03
-Source2:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.9_EN.odt.zip
-# Source2-md5:	ff62f5e3769b4f5670407d0085d064e5
-Source3:	http://dl.sourceforge.net/ocsinventory/OCS_Inventory_NG-Installation_and_Administration_Guide_1.9_EN.pdf.zip
-# Source3-md5:	cd1b2611f22f24223bb7c7b1fa095b12
+Source0:	https://launchpad.net/ocsinventory-server/stable-2.0/2.0.5/+download/OCSNG_UNIX_SERVER-%{version}.tar.gz
+# Source0-md5:	349904d03494b8fd9fc4eea1d6859729
 Source4:	%{name}-client.conf
 Source5:	%{name}-client.adm
 Source6:	%{name}-client.cron
 Source7:	%{name}-client.logrotate
 Patch0:		%{name}-config.patch
 URL:		http://www.ocsinventory-ng.org/
-BuildRequires:	perl-devel >= 1:5.6
 BuildRequires:	perl-ExtUtils-MakeMaker
+BuildRequires:	perl-devel >= 1:5.6
 BuildRequires:	unzip
 Requires:	apache >= 1.3.33
 Requires:	apache-mod_perl >= 1.29
@@ -31,9 +27,11 @@ Requires:	perl-DBI >= 1.40
 Requires:	perl-Net-IP >= 1.21
 Requires:	perl-XML-Simple >= 2.12
 Requires:	perl-base >= 1:5.6
-Requires:	php-common >= 3:4.3.2
+Requires:	php(core) >= 4.3.2
 Requires:	php-pecl-zip
 Requires:	webapps
+Suggests:	perl-SOAP-Lite
+Suggests:	perl-XML-Entities
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -82,7 +80,7 @@ zarządzania parkiem z automatycznym uaktualnianiem konfiguracji
 komputerów, zarządzaniem licencjami, help deskiem itd.
 
 %prep
-%setup -q -n OCSNG_LINUX_SERVER_%{version}
+%setup -q -n OCSNG_UNIX_SERVER-%{version}
 %patch0 -p1
 
 # undos the source
@@ -106,10 +104,10 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_sysconfdir}/logrotate.d,%{_var
 install -d $RPM_BUILD_ROOT{%{_appdir},%{_webappconfdir}}
 cp -Rf ocsreports/* $RPM_BUILD_ROOT%{_datadir}/%{name}
 
-install Apache/logrotate.ocsinventory-NG $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/ocs-inventory-ng
-install Apache/ocsinventory.conf $RPM_BUILD_ROOT%{_webappconfdir}/apache.conf
-install Apache/ocsinventory.conf $RPM_BUILD_ROOT%{_webappconfdir}/httpd.conf
-install ipdiscover-util/ipdiscover-util.pl $RPM_BUILD_ROOT%{_datadir}/%{name}/ipdiscover-util.pl
+install etc/logrotate.d/ocsinventory-server $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/ocs-inventory-ng
+install etc/ocsinventory/ocsinventory-server.conf $RPM_BUILD_ROOT%{_webappconfdir}/apache.conf
+install etc/ocsinventory/ocsinventory-server.conf $RPM_BUILD_ROOT%{_webappconfdir}/httpd.conf
+install binutils/ipdiscover-util.pl $RPM_BUILD_ROOT%{_datadir}/%{name}/ipdiscover-util.pl
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -128,12 +126,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README ocs-errors $SOURCE2 $SOURCE3
+%doc README binutils/ocs-errors binutils/*.README
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/ocs-inventory-ng
 %attr(750,root,http) %dir %{_webappconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_webappconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_webappconfdir}/httpd.conf
-%attr(755,root,root) %{_bindir}/Ocsinventory_local.pl
 %{_datadir}/%{name}/
 %dir %{perl_vendorlib}/Apache/Ocsinventory
 %{perl_vendorlib}/Apache/Ocsinventory/*
