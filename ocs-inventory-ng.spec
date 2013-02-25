@@ -8,10 +8,6 @@ License:	GPL
 Group:		Applications
 Source0:	https://launchpad.net/ocsinventory-server/stable-2.0/2.0.5/+download/OCSNG_UNIX_SERVER-%{version}.tar.gz
 # Source0-md5:	349904d03494b8fd9fc4eea1d6859729
-Source4:	%{name}-client.conf
-Source5:	%{name}-client.adm
-Source6:	%{name}-client.cron
-Source7:	%{name}-client.logrotate
 Patch0:		%{name}-config.patch
 URL:		http://www.ocsinventory-ng.org/
 BuildRequires:	perl-ExtUtils-MakeMaker
