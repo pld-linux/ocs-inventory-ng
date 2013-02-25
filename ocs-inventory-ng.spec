@@ -8,7 +8,6 @@ License:	GPL
 Group:		Applications
 Source0:	https://launchpad.net/ocsinventory-server/stable-2.0/2.0.5/+download/OCSNG_UNIX_SERVER-%{version}.tar.gz
 # Source0-md5:	349904d03494b8fd9fc4eea1d6859729
-Patch0:		%{name}-config.patch
 URL:		http://www.ocsinventory-ng.org/
 BuildRequires:	perl-ExtUtils-MakeMaker
 BuildRequires:	perl-devel >= 1:5.6
@@ -77,10 +76,22 @@ komputerów, zarządzaniem licencjami, help deskiem itd.
 
 %prep
 %setup -q -n OCSNG_UNIX_SERVER-%{version}
-%patch0 -p1
 
-# undos the source
-find '(' -name '*.php' -o -name '*.inc' -o  -name '*.conf' -o  -name '*.htc' -o  -name '*.js' -o  -name '*.dtd' -o  -name '*.pm' -o  -name '*.css' ')' -print0 | xargs -0 sed -i -e 's,\r$,,'
+# mimic setup.sh
+sed -e 's,PATH_TO_LOG_DIRECTORY,/var/log/ocs-inventory-ng,g' \
+    -i etc/logrotate.d/ocsinventory-server
+
+sed -e 's,VERSION_MP,2,g' \
+    -e 's,DATABASE_SERVER,localhost,g' \
+    -e 's,DATABASE_PORT,3306,g' \
+    -e 's,PATH_TO_LOG_DIRECTORY,/var/log/ocs-inventory-ng/,g' \
+    -i etc/ocsinventory/ocsinventory-server.conf
+
+sed -e 's,OCSREPORTS_ALIAS,/ocsreports,g' \
+    -e 's,PATH_TO_OCSREPORTS_DIR,/usr/share/ocs-inventory-ng,g' \
+    -e 's,PACKAGES_ALIAS,/download,g' \
+    -e 's,PATH_TO_PACKAGES_DIR,/var/lib/ocs-inventory-ng/,g' \
+    -i etc/ocsinventory/ocsinventory-reports.conf
 
 %build
 cd Apache
