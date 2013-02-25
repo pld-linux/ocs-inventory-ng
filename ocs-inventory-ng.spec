@@ -12,7 +12,6 @@ Patch0:		%{name}-config.patch
 URL:		http://www.ocsinventory-ng.org/
 BuildRequires:	perl-ExtUtils-MakeMaker
 BuildRequires:	perl-devel >= 1:5.6
-BuildRequires:	unzip
 Requires:	apache >= 1.3.33
 Requires:	apache-mod_perl >= 1.29
 Requires:	apache-mod_php >= 4.3.2
