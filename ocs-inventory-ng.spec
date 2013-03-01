@@ -104,6 +104,20 @@ sed -e 's,OCSREPORTS_ALIAS,/ocsreports,g' \
     -e 's,PATH_TO_PACKAGES_DIR,/var/lib/ocs-inventory-ng/,g' \
     -i etc/ocsinventory/ocsinventory-reports.conf
 
+# combine apache files
+cat etc/ocsinventory/ocsinventory-{server,reports}.conf > etc/ocsinventory/ocsinventory.conf
+
+# prepare db config and drop install.php
+rm ocsreports/install.php
+cat > ocsreports/dbconfig.inc.php << 'EOF'
+<?php
+define('DB_NAME', 'ocsweb');
+define('SERVER_READ', 'localhost');
+define('SERVER_WRITE', 'localhost');
+define('COMPTE_BASE', 'ocs');
+define('PSWD_BASE', 'ocs');
+EOF
+
 %build
 cd Apache
 %{__perl} Makefile.PL \
@@ -129,10 +143,9 @@ cp -a PluginOcsOfficekey-2.2.4/ms_plugins/ms_plugins_packoffice.php $RPM_BUILD_R
 cp -a PluginOcsOfficekey-2.2.4/img/ms_* $RPM_BUILD_ROOT%{_datadir}/%{name}/plugins/main_sections/img/
 
 install etc/logrotate.d/ocsinventory-server $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/ocs-inventory-ng
-install etc/ocsinventory/ocsinventory-server.conf $RPM_BUILD_ROOT%{_webappconfdir}/apache.conf
-install etc/ocsinventory/ocsinventory-server.conf $RPM_BUILD_ROOT%{_webappconfdir}/httpd.conf
+install etc/ocsinventory/ocsinventory.conf $RPM_BUILD_ROOT%{_webappconfdir}/apache.conf
+install etc/ocsinventory/ocsinventory.conf $RPM_BUILD_ROOT%{_webappconfdir}/httpd.conf
 install binutils/ipdiscover-util.pl $RPM_BUILD_ROOT%{_datadir}/%{name}/ipdiscover-util.pl
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
