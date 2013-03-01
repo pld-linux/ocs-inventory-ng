@@ -8,6 +8,9 @@ License:	GPL
 Group:		Applications
 Source0:	https://launchpad.net/ocsinventory-server/stable-2.0/2.0.5/+download/OCSNG_UNIX_SERVER-%{version}.tar.gz
 # Source0-md5:	349904d03494b8fd9fc4eea1d6859729
+Source1:	http://download.ocsinventory-ng.org/pub/plugins/PluginOcsOfficekey-2.2.4.tar.gz
+# Source1-md5:	ec8c319a17f6a0d8b104cdc2a8f20127
+Patch0:		%{name}-plugin-officekey.patch
 URL:		http://www.ocsinventory-ng.org/
 BuildRequires:	perl-ExtUtils-MakeMaker
 BuildRequires:	perl-devel >= 1:5.6
@@ -75,7 +78,15 @@ zarządzania parkiem z automatycznym uaktualnianiem konfiguracji
 komputerów, zarządzaniem licencjami, help deskiem itd.
 
 %prep
-%setup -q -n OCSNG_UNIX_SERVER-%{version}
+%setup -q -n OCSNG_UNIX_SERVER-%{version} -a1
+%patch0 -p1
+
+mv -f PluginOcsOfficekey-2.2.4/README{,-Officekey}.txt
+mv -f PluginOcsOfficekey-2.2.4/CHANGES{,-Officekey}.txt
+
+# combine sql files
+cat PluginOcsOfficekey-2.2.4/*.sql >> ocsreports/files/ocsbase.sql
+cat PluginOcsOfficekey-2.2.4/*.sql >> ocsreports/files/ocsbase_new.sql
 
 # mimic setup.sh
 sed -e 's,PATH_TO_LOG_DIRECTORY,/var/log/ocs-inventory-ng,g' \
@@ -109,12 +120,19 @@ cd ..
 
 install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_sysconfdir}/logrotate.d,%{_var}/log/%{name}}
 install -d $RPM_BUILD_ROOT{%{_appdir},%{_webappconfdir}}
+
+# ocsreports + plugins
 cp -Rf ocsreports/* $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -a PluginOcsOfficekey-2.2.4/cd_officepack $RPM_BUILD_ROOT%{_datadir}/%{name}/plugins/computer_detail
+cp -a PluginOcsOfficekey-2.2.4/img/cd_* $RPM_BUILD_ROOT%{_datadir}/%{name}/plugins/computer_detail/img/
+cp -a PluginOcsOfficekey-2.2.4/ms_plugins/ms_plugins_packoffice.php $RPM_BUILD_ROOT%{_datadir}/%{name}/plugins/main_sections/ms_plugins
+cp -a PluginOcsOfficekey-2.2.4/img/ms_* $RPM_BUILD_ROOT%{_datadir}/%{name}/plugins/main_sections/img/
 
 install etc/logrotate.d/ocsinventory-server $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/ocs-inventory-ng
 install etc/ocsinventory/ocsinventory-server.conf $RPM_BUILD_ROOT%{_webappconfdir}/apache.conf
 install etc/ocsinventory/ocsinventory-server.conf $RPM_BUILD_ROOT%{_webappconfdir}/httpd.conf
 install binutils/ipdiscover-util.pl $RPM_BUILD_ROOT%{_datadir}/%{name}/ipdiscover-util.pl
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -133,7 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README binutils/ocs-errors binutils/*.README
+%doc README ocsreports/files/*.sql binutils/ocs-errors binutils/*.README PluginOcsOfficekey-2.2.4/*.txt PluginOcsOfficekey-2.2.4/msofficekey.vbs
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/ocs-inventory-ng
 %attr(750,root,http) %dir %{_webappconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_webappconfdir}/apache.conf
