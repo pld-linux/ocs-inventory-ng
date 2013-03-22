@@ -25,7 +25,7 @@ Requires:	perl-Net-IP >= 1.21
 Requires:	perl-XML-Simple >= 2.12
 Requires:	perl-base >= 1:5.6
 Requires:	php(core) >= 4.3.2
-Requires:	php-zip
+Requires:	php(zip)
 Requires:	webapps
 Requires:	webserver(indexfile)
 Suggests:	perl-SOAP-Lite
