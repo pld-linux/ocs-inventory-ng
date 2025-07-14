@@ -79,7 +79,7 @@ komputerów, zarządzaniem licencjami, help deskiem itd.
 
 %prep
 %setup -q -n OCSNG_UNIX_SERVER-%{version} -a1
-%patch0 -p1
+%patch -P0 -p1
 
 mv -f PluginOcsOfficekey-2.2.4/README{,-Officekey}.txt
 mv -f PluginOcsOfficekey-2.2.4/CHANGES{,-Officekey}.txt
